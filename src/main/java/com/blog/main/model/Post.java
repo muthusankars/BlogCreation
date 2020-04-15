@@ -8,8 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PostPersist;
+import javax.persistence.PrePersist;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Post {
@@ -17,9 +21,13 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	@NotBlank(message = "Title is required")
 	private String title;
+	@NotBlank(message = "Description is required")
 	private String description;
+	@NotBlank(message = "Content is required")
 	private String content;
+	@Lob
 	private byte[] image;
 	private Date createDate;
 	private Date updateDate;
@@ -81,5 +89,12 @@ public class Post {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+	@PrePersist
+	protected void onCreate() {
+		this.createDate=new Date();
+	}
+	@PostPersist
+	protected void onUpdate() {
+		this.updateDate=new Date();
+	}
 }

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class User {
@@ -11,7 +12,9 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	@NotBlank(message = "Username is required")
 	private String userName;
+	@NotBlank(message = "Password is required")
 	private String userPassword;
 	public Long getId() {
 		return id;
